@@ -26,3 +26,8 @@ export const checkPermissions = (allowed: "gca_admin" | "gca_operator" | "user")
   if (level[currenUserRole.toLowerCase()] < level[allowed.toLowerCase()]) return false;
   return true;
 };
+
+export const checkRegex = (pattern: RegExp, val: string): boolean => {
+  const regex = new RegExp(pattern);
+  return regex.test(val);
+};

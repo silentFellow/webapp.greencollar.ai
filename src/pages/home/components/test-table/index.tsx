@@ -69,7 +69,7 @@ const TestTable = ({
     return <h1 className="text-center mt-6">No results...</h1>;
 
   return (
-    <div className="my-3 col max-w-3xl">
+    <div className="my-3 max-w-4xl mx-auto">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map(headerGroup => (
