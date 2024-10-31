@@ -110,7 +110,7 @@ const TestTable = ({
 
       <Pagination
         pageNumber={offset / limit + 1}
-        hasNext={offset < (scans.data?.total_count || 0)}
+        hasNext={offset + limit < (scans.data?.total_count || 0)}
         onNext={() => handlePagination("next")}
         onPrev={() => handlePagination("prev")}
       />

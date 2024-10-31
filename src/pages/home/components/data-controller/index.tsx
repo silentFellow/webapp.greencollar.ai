@@ -13,9 +13,6 @@ import { useObject } from "@/hooks";
 import { useTableStore } from "@/pages/home/zustand";
 import { TbSortDescending, TbSortAscending } from "react-icons/tb";
 import { UseQueryResult } from "@tanstack/react-query";
-import { useLayoutEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { parseQuery } from "@/lib/utils";
 
 const TestTableDataController = ({ scans }: { scans: UseQueryResult }) => {
   const [flow, setFlow] = useObject({
@@ -27,13 +24,6 @@ const TestTableDataController = ({ scans }: { scans: UseQueryResult }) => {
   const value = query.sort_by_asc || query.sort_by_desc;
   const sortOrder = query.sort_by_asc ? "sort_by_asc" : "sort_by_desc";
 
-  // change url when query changes
-  const navigate = useNavigate();
-  useLayoutEffect(() => {
-    if (!parseQuery(query)) return;
-    navigate(`?${parseQuery(query)}`);
-  }, [query, navigate]);
-
   return (
     <section className="mt-3 full end gap-5 max-sm:grid max-sm:grid-cols-2">
       <DropdownMenu
@@ -43,7 +33,7 @@ const TestTableDataController = ({ scans }: { scans: UseQueryResult }) => {
         <div className="flex">
           <DropdownMenuTrigger asChild className="no-focus max-sm:w-full">
             <Button variant="outline" className="gap-2 rounded-r-none capitalize">
-              {value?.split("_").join(" ") || "Sort By"}
+              {value?.toString().split("_").join(" ") || "Sort By"}
             </Button>
           </DropdownMenuTrigger>
           <Button

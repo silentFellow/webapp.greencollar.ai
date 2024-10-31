@@ -5,26 +5,16 @@ import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { fetchScanRequest } from "./query";
 import TestTableDataController from "./components/data-controller";
-import { useTableStore } from "./zustand";
-import { useLayoutEffect } from "react";
 import { parseQuery } from "@/lib/utils";
 import { useURLQuery } from "@/hooks";
 import TestTable from "./components/test-table";
+import { useSetFilter } from "./hooks";
 
 const Home = () => {
-  const navigate = useNavigate();
+  useSetFilter();
 
-  // navigate to queries like in store, if current query is empty
-  const { query, setQuery } = useTableStore();
   const currentQuery = useURLQuery();
-
-  useLayoutEffect(() => {
-    const storeQueryString = parseQuery(query);
-    const currentQueryString = parseQuery(currentQuery);
-
-    if (storeQueryString === currentQueryString) return;
-    if (!currentQueryString && storeQueryString) navigate(`?${storeQueryString}`);
-  }, [query, setQuery, currentQuery, navigate]);
+  const navigate = useNavigate();
 
   const scans = useQuery({
     queryKey: ["scans", currentQuery],
