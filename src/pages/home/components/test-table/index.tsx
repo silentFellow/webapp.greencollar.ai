@@ -23,13 +23,13 @@ const TestTable = ({
   const data = scans.data?.scan_requests || [];
 
   // pagination
-  const offset: number = typeof query.offset === "number" ? query.offset : 1;
-  const limit: number = typeof query.limit === "number" ? query.limit : 1;
+  const offset: number = Number(query.offset || 0);
+  const limit: number = Number(query.limit || 1);
   const navigate = useNavigate();
 
   const handlePagination = (direction: "next" | "prev") => {
     const newOffset = direction === "next" ? offset + limit : Math.max(offset - limit, 0);
-    setQuery({ ...query, offset: newOffset });
+    setQuery({ ...query, offset: newOffset.toString() });
     navigate(`?${parseQuery(query)}`);
   };
 
@@ -109,7 +109,7 @@ const TestTable = ({
       </Table>
 
       <Pagination
-        pageNumber={offset / limit + 1}
+        pageNumber={Math.floor(offset / limit + 1)}
         hasNext={offset + limit < (scans.data?.total_count || 0)}
         onNext={() => handlePagination("next")}
         onPrev={() => handlePagination("prev")}

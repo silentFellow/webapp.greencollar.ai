@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware";
 import ScanInfo from "@/pages/home/components/scan-info";
 import { Order } from "@/pages/home/types";
 
-type Query = Record<string, string | number | null>;
+type Query = Record<string, string | null>;
 type Columns = {
   label: string;
   key: string;
@@ -33,8 +33,8 @@ export const useTableStore = create<{
         crop_property_value: null,
         kiosk_id: null,
         kiosk_name: null,
-        limit: 10,
-        offset: 0,
+        limit: "10",
+        offset: "0",
         operator_id: null,
         predict_property_id: null,
         predict_property_value_gte: null,

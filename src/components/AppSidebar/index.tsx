@@ -53,7 +53,7 @@ const AppSidebar = () => {
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ) : (
-              <SidebarGroup>
+              <SidebarGroup key={route.name}>
                 <SidebarGroupLabel className="p-1 text-sm">{route.name}</SidebarGroupLabel>
                 <SidebarGroupContent>
                   <SidebarMenu>
