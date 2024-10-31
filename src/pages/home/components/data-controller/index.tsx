@@ -103,7 +103,7 @@ const TestTableDataController = ({ scans }: { scans: UseQueryResult }) => {
 
       <Button className="flex gap-3">
         <LuFilter />
-        <span>Filter</span>
+        <span className="md:hidden">Filter</span>
       </Button>
 
       <Button onClick={() => scans.refetch()}>

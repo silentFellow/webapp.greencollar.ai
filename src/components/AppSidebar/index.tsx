@@ -13,11 +13,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { PiSignOutBold } from "react-icons/pi";
 import { sidebarRoutes, excludedRoutes } from "@/constants";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { checkRegex } from "@/lib/utils";
 
 const AppSidebar = () => {
-  const navigate = useNavigate();
   const { pathname } = useLocation();
 
   if (excludedRoutes.map(route => checkRegex(route, pathname)).includes(true)) return null;
@@ -46,10 +45,10 @@ const AppSidebar = () => {
                 className={`p-1 rounded-md ${route.active.map(active => checkRegex(active, pathname)).includes(true) && "bg-[#877EFF] text-[#2c2c2c]"}`}
               >
                 <SidebarMenuButton asChild className="flex gap-5 text-md">
-                  <div onClick={() => navigate(route.navigate)}>
+                  <Link to={route.navigate}>
                     <route.icon />
                     <span className="font-bold">{route.name}</span>
-                  </div>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ) : (
@@ -63,10 +62,10 @@ const AppSidebar = () => {
                         className={`p-1 rounded-md ${sublink.active.map(active => checkRegex(active, pathname)).includes(true) && "bg-[#877EFF] text-[#2c2c2c]"}`}
                       >
                         <SidebarMenuButton asChild className="flex gap-5 text-md">
-                          <div onClick={() => navigate(sublink.navigate)}>
+                          <Link to={sublink.navigate}>
                             <sublink.icon />
                             <span className="font-bold">{sublink.name}</span>
-                          </div>
+                          </Link>
                         </SidebarMenuButton>
                       </SidebarMenuItem>
                     ))}
