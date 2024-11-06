@@ -10,11 +10,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useObject } from "@/hooks";
-import { useTableStore } from "@/pages/home/zustand";
+import { useTableStore } from "@/features/test/pages/home/zustand";
 import { TbSortDescending, TbSortAscending } from "react-icons/tb";
-import { UseQueryResult } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 
-const TestTableDataController = ({ scans }: { scans: UseQueryResult }) => {
+const TestTableDataController = () => {
   const [flow, setFlow] = useObject({
     columnDropdown: false,
     sortDropdown: false,
@@ -23,6 +23,12 @@ const TestTableDataController = ({ scans }: { scans: UseQueryResult }) => {
   const { query, setQuery, columns, toggleColumns } = useTableStore();
   const value = query.sort_by_asc || query.sort_by_desc;
   const sortOrder = query.sort_by_asc ? "sort_by_asc" : "sort_by_desc";
+
+  // handle refetch
+  const queryClient = useQueryClient();
+  const handleRefetch = () => {
+    queryClient.invalidateQueries({ queryKey: ["scans"], refetchType: "all" });
+  };
 
   return (
     <section className="mt-3 full end gap-5 max-sm:grid max-sm:grid-cols-2">
@@ -106,7 +112,7 @@ const TestTableDataController = ({ scans }: { scans: UseQueryResult }) => {
         <span className="md:hidden">Filter</span>
       </Button>
 
-      <Button onClick={() => scans.refetch()}>
+      <Button onClick={handleRefetch}>
         <IoRefresh />
         <span className="sm:hidden">Refetch</span>
       </Button>

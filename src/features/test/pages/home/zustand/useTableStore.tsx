@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import ScanInfo from "@/pages/home/components/scan-info";
-import { Order } from "@/pages/home/types";
+import ScanInfo from "@/features/test/pages/home/components/scan-info";
+import { Order } from "@/features/test/pages/home/types";
 
 type Query = Record<string, string | null>;
 type Columns = {
@@ -45,7 +45,7 @@ export const useTableStore = create<{
         scan_request_id: null,
         sort_by_asc: null,
         sort_by_desc: null,
-        status: null,
+        status: "completed",
         sub_sample_name: null,
         taram_id: null,
         user_id: null,

@@ -1,8 +1,10 @@
-import Home from "@/pages/home";
+import Home from "@/features/test/pages/home";
+import InitiateTest from "@/features/test/pages/initiate";
 import AppSidebar from "@/components/AppSidebar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { SidebarProvider, SidebarTrigger } from "./components/ui/sidebar";
+import { Toaster } from "sonner";
 
 const App = () => {
   return (
@@ -15,9 +17,11 @@ const App = () => {
             <SidebarTrigger className="md:hidden" />
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/test/initiate" element={<InitiateTest />} />
             </Routes>
 
-            <ReactQueryDevtools />
+            {import.meta.env.MODE === "development" && <ReactQueryDevtools />}
+            <Toaster />
           </section>
         </main>
       </SidebarProvider>

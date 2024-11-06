@@ -8,8 +8,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useTableStore } from "@/pages/home/zustand";
-import { Order } from "@/pages/home/types";
+import { useTableStore } from "@/features/test/pages/home/zustand";
+import { Order } from "@/features/test/pages/home/types";
 import Pagination from "@/components/Pagination";
 import { parseQuery } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";

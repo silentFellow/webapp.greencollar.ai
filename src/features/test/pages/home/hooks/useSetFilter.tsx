@@ -1,5 +1,5 @@
 import { useURLQuery } from "@/hooks";
-import { useTableStore } from "@/pages/home/zustand";
+import { useTableStore } from "@/features/test/pages/home/zustand";
 import { useNavigate } from "react-router-dom";
 import { parseQuery } from "@/lib/utils";
 import { useLayoutEffect, useState } from "react";
@@ -31,7 +31,7 @@ export const useSetFilter = () => {
     if (currentQueryString && currentQueryString !== storeQueryString) {
       const newQuery: Record<string, string | null> = {};
       Object.keys(query).map(key => {
-        newQuery[key] = currentQuery[key] || null;
+        newQuery[key] = currentQuery[key] ? currentQuery[key] : null;
       });
       setQuery(newQuery);
       setIsNavigating(true);

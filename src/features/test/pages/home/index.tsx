@@ -35,7 +35,7 @@ const Home = () => {
       </div>
 
       <section className="full mt-2 flex flex-col gap-3">
-        <TestTableDataController scans={scans} />
+        <TestTableDataController />
         <TestTable scans={scans} />
       </section>
     </section>
