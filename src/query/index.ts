@@ -1,5 +1,13 @@
 import { api } from "@/api";
 
+export const fetchUser = async (identity: string) => {
+  // TODO: not sure if it works
+  const response = await api.get(
+    `/user?user_name=${identity}&mobile=${identity}&email=${identity}&verify_zoho=true`,
+  );
+  return response;
+};
+
 export const fetchUserByUsername = async (username: string) => {
   const response = await api.get(`/user?user_name=${username}&verify_zoho=true`);
   return response;

@@ -103,7 +103,6 @@ const ScanInfo = ({ scan }: { scan: Order }) => {
                     error: "An error occurred while cancelling scan",
                   });
                 }}
-                // onClick={() => console.log("clicked")}
               >
                 Continue
               </Button>
@@ -129,7 +128,12 @@ const ScanInfo = ({ scan }: { scan: Order }) => {
           />
           <ToolTip
             children={
-              <Button variant="ghost" onClick={() => console.log(scan.scan_request_status)}>
+              <Button
+                variant="ghost"
+                onClick={() => {
+                  toast.error(scan.scan_request_status);
+                }}
+              >
                 <BiError />
               </Button>
             }
