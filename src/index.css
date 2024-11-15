@@ -107,3 +107,13 @@
 .sidebar {
   @apply sticky left-0 top-0 z-20 flex h-screen w-96 flex-col justify-between overflow-auto border-r bg-[rgb(33,33,33)] pb-5 pt-28 max-md:hidden;
 }
+
+.dropdown-w-full {
+  width: var(--radix-dropdown-menu-trigger-width);
+  max-height: var(--radix-dropdown-menu-content-available-height);
+}
+
+.popover-w-full {
+  width: var(--radix-popover-trigger-width);
+  max-height: var(--radix-popover-content-available-height);
+}

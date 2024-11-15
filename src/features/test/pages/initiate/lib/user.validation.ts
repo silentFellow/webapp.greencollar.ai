@@ -1,4 +1,4 @@
-import { z, ZodTypeAny } from "zod";
+import { literal, z, ZodTypeAny } from "zod";
 import { UserTemplate, UserTemplateProperty } from "@/features/test/pages/initiate/types";
 
 export const parseUserSchema = (userTemplate: UserTemplate) => {
@@ -34,7 +34,11 @@ export const parseUserSchema = (userTemplate: UserTemplate) => {
 
         case "list":
           if (item.property_values && item.property_values.length > 0) {
-            schema = z.enum(item.property_values as [string, ...string[]]);
+            schema = z.enum(item.property_values as [string, ...string[]], {
+              errorMap: () => ({
+                message: `Value must be one of: ${item.property_values?.join(", ")}`,
+              }),
+            });
           } else {
             schema = z
               .string()
@@ -47,7 +51,7 @@ export const parseUserSchema = (userTemplate: UserTemplate) => {
           schema = z.any();
       }
 
-      if (!item.mandatory) schema = schema.optional();
+      if (!item.mandatory) schema = schema.or(literal(""));
 
       acc[item.property_name as string] = schema;
       return acc;
@@ -56,3 +60,5 @@ export const parseUserSchema = (userTemplate: UserTemplate) => {
 
   return userSchema;
 };
+
+export type UserFormType = z.infer<ReturnType<typeof parseUserSchema>>;

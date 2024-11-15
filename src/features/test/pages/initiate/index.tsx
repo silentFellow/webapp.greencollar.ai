@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { useObject } from "@/hooks";
 import { fetchCreateUserTemplate } from "@/features/test/pages/initiate/query";
 import UserForm from "./components/user-form";
+import CropForm from "./components/crop-form";
 import {
   Accordion,
   AccordionContent,
@@ -55,6 +56,7 @@ const InitiateTest = () => {
 
           <div className="mt-2 flex justify-start items-center gap-3 ">
             <Input
+              value={username}
               placeholder="Enter username"
               className="no-focus"
               onChange={e => setUsername(e.target.value)}
@@ -84,7 +86,11 @@ const InitiateTest = () => {
           {checkUserMutation.data?.data.count == 0 ? (
             <>
               <h3>Create User: </h3>
-              <UserForm userTemplate={userTemplate.data.data} />
+              <UserForm
+                userTemplate={userTemplate.data.data}
+                setUsername={setUsername}
+                login={checkUserMutation.mutateAsync}
+              />
             </>
           ) : (
             resUser && (
@@ -102,6 +108,12 @@ const InitiateTest = () => {
               </>
             )
           )}
+        </div>
+      )}
+
+      {resUser && (
+        <div className="mt-3">
+          <CropForm />
         </div>
       )}
     </section>
