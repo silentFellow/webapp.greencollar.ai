@@ -3,7 +3,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import { Button } from "@/components/ui/button";
 import { fetchUserByUsername } from "@/query";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useObject } from "@/hooks";
 import { fetchCreateUserTemplate } from "@/features/test/pages/initiate/query";
@@ -15,8 +15,15 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useScanFormStore } from "./zustand";
 
 const InitiateTest = () => {
+  // unmount zustand
+  const { reset } = useScanFormStore();
+  useEffect(() => {
+    return () => reset();
+  }, [reset]);
+
   const [username, setUsername] = useState("");
 
   const userTemplate = useQuery({

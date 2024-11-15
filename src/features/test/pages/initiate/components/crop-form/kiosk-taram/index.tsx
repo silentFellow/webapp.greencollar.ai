@@ -34,18 +34,29 @@ const KioskTaram = ({ form }: { form: UseFormReturn<ScanFormType> }) => {
   return (
     <div className="grid sm:grid-cols-3 max-sm:grid-cols-1 gap-6">
       {kiosk_data && (
-        <DropDown
-          options={kiosk_data.reduce((acc: Record<string, string>, kiosk: kiosk) => {
-            acc[kiosk.kiosk_name] = kiosk.kiosk_id;
-            return acc;
-          }, {})}
-          disableNone={true}
-          label="Select Kiosk"
-          value={selectedKiosk}
-          change={val => {
-            setSelectedKiosk(val);
-            form.setValue("taram_id", "");
-          }}
+        <FormField
+          control={form.control}
+          name={"taram_id"}
+          render={() => (
+            <FormItem className="flex flex-col gap-1 w-full">
+              <FormControl className="no-focus border border-dark-4 bg-dark-3 text-light-1">
+                <DropDown
+                  options={kiosk_data.reduce((acc: Record<string, string>, kiosk: kiosk) => {
+                    acc[kiosk.kiosk_name] = kiosk.kiosk_id;
+                    return acc;
+                  }, {})}
+                  disableNone={true}
+                  label="Select Kiosk"
+                  value={selectedKiosk}
+                  change={val => {
+                    setSelectedKiosk(val);
+                    form.setValue("taram_id", "");
+                  }}
+                />
+              </FormControl>
+              {!taram_data && <FormMessage />}
+            </FormItem>
+          )}
         />
       )}
 

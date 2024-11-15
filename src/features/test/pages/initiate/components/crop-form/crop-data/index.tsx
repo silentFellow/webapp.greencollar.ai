@@ -10,7 +10,6 @@ import { Crop, CropPredictableProperty, CropProperty, CropPropertyValue } from "
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import DatePicker from "@/components/DatePicker";
-import { Button } from "@/components/ui/button";
 import { useScanFormStore } from "@/features/test/pages/initiate/zustand";
 
 const CropData = ({ form }: { form: UseFormReturn<ScanFormType> }) => {
@@ -50,8 +49,8 @@ const CropData = ({ form }: { form: UseFormReturn<ScanFormType> }) => {
 
     properties.replace(
       selectedProperties.map((prop: CropProperty) => ({
-        property_name: prop.crop_property_name,
-        property_value: "",
+        crop_property_id: prop.crop_property_id,
+        crop_property_value: "",
       })),
     );
   };
@@ -148,87 +147,141 @@ const CropData = ({ form }: { form: UseFormReturn<ScanFormType> }) => {
                   <div className="flex flex-col gap-2">
                     <Label className="capitalize">
                       {crop.crop_property_name.split("_").join(" ")}
+                      <span className="ml-2 font-extrabold">
+                        {crop.mandatory.toLowerCase() === "true" ? "*" : ""}
+                      </span>
                     </Label>
 
                     {crop.crop_property_type.toLowerCase() === "string" ? (
-                      <Input
-                        className="no-focus"
-                        type="text"
-                        placeholder={crop.crop_property_name.split("_").join(" ")}
-                        onChange={e => {
-                          properties.update(index, {
-                            ...properties.fields[index],
-                            crop_property_value: e.target.value,
-                          });
-                        }}
-                      />
-                    ) : crop.crop_property_type.toLowerCase() === "list" ? (
-                      <DropDown
-                        options={crop.crop_property_value_list.reduce(
-                          (acc: Record<string, string>, value: CropPropertyValue) => {
-                            acc[value.crop_property_value] = value.crop_property_value;
-                            return acc;
-                          },
-                          {},
-                        )}
-                        value={properties.fields[index].crop_property_value}
-                        change={val => {
-                          properties.update(index, {
-                            ...properties.fields[index],
-                            crop_property_value: val,
-                          });
-                        }}
-                      />
-                    ) : crop.crop_property_type.toLowerCase() === "editable list" ? (
-                      <DropDown
-                        withSearch={true}
-                        options={crop.crop_property_value_list.reduce(
-                          (acc: Record<string, string>, value: CropPropertyValue) => {
-                            acc[value.crop_property_value] = value.crop_property_value;
-                            return acc;
-                          },
-                          {},
-                        )}
-                        value={properties.fields[index].crop_property_value}
-                        change={val => {
-                          properties.update(index, {
-                            ...properties.fields[index],
-                            crop_property_value: val,
-                          });
-                        }}
-                      />
-                    ) : crop.crop_property_type.toLowerCase() === "boolean" ? (
-                      <Switch
-                        id={crop.crop_property_id}
-                        checked={properties.fields[index].crop_property_value === "true"}
-                        onCheckedChange={checked => {
-                          properties.update(index, {
-                            ...properties.fields[index],
-                            crop_property_value: checked ? "true" : "false",
-                          });
-                        }}
-                      />
-                    ) : (
-                      crop.crop_property_type.toLowerCase() === "date" && (
-                        <DatePicker
-                          onChange={(val: Date | null) => {
+                      <>
+                        <Input
+                          value={properties.fields[index].crop_property_value}
+                          className="no-focus"
+                          type="text"
+                          placeholder={crop.crop_property_name.split("_").join(" ")}
+                          onChange={e => {
                             properties.update(index, {
                               ...properties.fields[index],
-                              crop_property_value: val?.toString() || "",
+                              crop_property_value: e.target.value,
                             });
                           }}
                         />
+                        {form.formState.errors.sample?.sample_details?.[index]
+                          ?.crop_property_value && (
+                          <FormMessage>
+                            {
+                              form.formState.errors.sample.sample_details[index]
+                                .crop_property_value.message
+                            }
+                          </FormMessage>
+                        )}
+                      </>
+                    ) : crop.crop_property_type.toLowerCase() === "list" ? (
+                      <>
+                        <DropDown
+                          options={crop.crop_property_value_list.reduce(
+                            (acc: Record<string, string>, value: CropPropertyValue) => {
+                              acc[value.crop_property_value] = value.crop_property_value;
+                              return acc;
+                            },
+                            {},
+                          )}
+                          value={properties.fields[index].crop_property_value}
+                          change={val => {
+                            properties.update(index, {
+                              ...properties.fields[index],
+                              crop_property_value: val,
+                            });
+                          }}
+                        />
+                        {form.formState.errors.sample?.sample_details?.[index]
+                          ?.crop_property_value && (
+                          <FormMessage>
+                            {
+                              form.formState.errors.sample.sample_details[index]
+                                .crop_property_value.message
+                            }
+                          </FormMessage>
+                        )}
+                      </>
+                    ) : crop.crop_property_type.toLowerCase() === "editable list" ? (
+                      <>
+                        <DropDown
+                          withSearch={true}
+                          options={crop.crop_property_value_list.reduce(
+                            (acc: Record<string, string>, value: CropPropertyValue) => {
+                              acc[value.crop_property_value] = value.crop_property_value;
+                              return acc;
+                            },
+                            {},
+                          )}
+                          value={properties.fields[index].crop_property_value}
+                          change={val => {
+                            properties.update(index, {
+                              ...properties.fields[index],
+                              crop_property_value: val,
+                            });
+                          }}
+                        />
+                        {form.formState.errors.sample?.sample_details?.[index]
+                          ?.crop_property_value && (
+                          <FormMessage>
+                            {
+                              form.formState.errors.sample.sample_details[index]
+                                .crop_property_value.message
+                            }
+                          </FormMessage>
+                        )}
+                      </>
+                    ) : crop.crop_property_type.toLowerCase() === "boolean" ? (
+                      <>
+                        <Switch
+                          id={crop.crop_property_id}
+                          checked={properties.fields[index].crop_property_value === "true"}
+                          onCheckedChange={checked => {
+                            properties.update(index, {
+                              ...properties.fields[index],
+                              crop_property_value: checked ? "true" : "false",
+                            });
+                          }}
+                        />
+                        {form.formState.errors.sample?.sample_details?.[index]
+                          ?.crop_property_value && (
+                          <FormMessage>
+                            {
+                              form.formState.errors.sample.sample_details[index]
+                                .crop_property_value.message
+                            }
+                          </FormMessage>
+                        )}
+                      </>
+                    ) : (
+                      crop.crop_property_type.toLowerCase() === "date" && (
+                        <>
+                          <DatePicker
+                            onChange={(val: Date | null) => {
+                              properties.update(index, {
+                                ...properties.fields[index],
+                                crop_property_value: val?.toString() || "",
+                              });
+                            }}
+                          />
+
+                          {form.formState.errors.sample?.sample_details?.[index]
+                            ?.crop_property_value && (
+                            <FormMessage>
+                              {
+                                form.formState.errors.sample.sample_details[index]
+                                  .crop_property_value.message
+                              }
+                            </FormMessage>
+                          )}
+                        </>
                       )
                     )}
                   </div>
                 ))}
               </div>
-            </div>
-
-            <div className="flex justify-center gap-6">
-              <Button type="button">Undo</Button>
-              <Button type="button">Add Another Sample</Button>
-              <Button type="submit">Submit</Button>
             </div>
           </section>
         )}
