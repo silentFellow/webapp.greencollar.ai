@@ -18,8 +18,9 @@ import {
 import { useScanFormStore } from "./zustand";
 
 const InitiateTest = () => {
+  const { setVerifiedUser, reset } = useScanFormStore();
+
   // unmount zustand
-  const { reset } = useScanFormStore();
   useEffect(() => {
     return () => reset();
   }, [reset]);
@@ -41,6 +42,9 @@ const InitiateTest = () => {
       if (!username) return;
       const response = await fetchUserByUsername(username);
       return response;
+    },
+    onSuccess: data => {
+      setVerifiedUser(data?.data.users[0]);
     },
   });
   const resUser = checkUserMutation.data?.data.users[0];

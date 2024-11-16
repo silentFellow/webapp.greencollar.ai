@@ -3,22 +3,22 @@ import {
   fetchTaramAssociatedWithKiosk,
   fetchAllKiosks,
 } from "@/features/test/pages/initiate/query";
-import { useState } from "react";
 import { FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 
 import DropDown from "@/components/Dropdwon";
 import { UseFormReturn } from "react-hook-form";
 import { ScanFormType } from "@/features/test/pages/initiate/lib/scan.validation";
 import { kiosk, Taram } from "@/types";
+import { useScanFormStore } from "@/features/test/pages/initiate/zustand";
 
 const KioskTaram = ({ form }: { form: UseFormReturn<ScanFormType> }) => {
-  const [selectedKiosk, setSelectedKiosk] = useState("");
+  const { selectedKiosk, setSelectedKiosk, setSelectedTaram } = useScanFormStore();
 
   const tarams = useQuery({
     queryKey: ["tarams", selectedKiosk],
     queryFn: async () => {
       if (!selectedKiosk) return;
-      return await fetchTaramAssociatedWithKiosk(selectedKiosk);
+      return await fetchTaramAssociatedWithKiosk(selectedKiosk.kiosk_id);
     },
   });
   const taram_data = tarams.data?.data;
@@ -47,9 +47,9 @@ const KioskTaram = ({ form }: { form: UseFormReturn<ScanFormType> }) => {
                   }, {})}
                   disableNone={true}
                   label="Select Kiosk"
-                  value={selectedKiosk}
+                  value={selectedKiosk?.kiosk_id}
                   change={val => {
-                    setSelectedKiosk(val);
+                    setSelectedKiosk(kiosk_data.find((kiosk: kiosk) => kiosk.kiosk_id === val));
                     form.setValue("taram_id", "");
                   }}
                 />
@@ -76,7 +76,10 @@ const KioskTaram = ({ form }: { form: UseFormReturn<ScanFormType> }) => {
                   label="Select Taram"
                   withSearch={true}
                   {...field}
-                  change={val => field.onChange(val)}
+                  change={val => {
+                    setSelectedTaram(taram_data.find((taram: Taram) => taram.taram_id === val));
+                    field.onChange(val);
+                  }}
                 />
               </FormControl>
               <FormMessage />

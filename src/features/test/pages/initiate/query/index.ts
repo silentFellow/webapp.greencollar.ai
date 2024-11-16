@@ -1,4 +1,5 @@
 import { api } from "@/api";
+import { ScanFormType } from "@/features/test/pages/initiate/lib/scan.validation";
 
 // user section
 export const fetchCreateUserTemplate = async () => {
@@ -29,5 +30,10 @@ export const fetchAllTarams = async () => {
 
 export const fetchTaramAssociatedWithKiosk = async (kiosk: string) => {
   const response = await api.get(`/taram?kiosk_id=${kiosk}`);
+  return response;
+};
+
+export const createScan = async (data: ScanFormType) => {
+  const response = await api.post("/scanrequest", data);
   return response;
 };

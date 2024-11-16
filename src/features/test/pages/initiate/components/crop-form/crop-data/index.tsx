@@ -3,7 +3,7 @@ import { ScanFormType } from "@/features/test/pages/initiate/lib/scan.validation
 import DropDown from "@/components/Dropdwon";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCropTemplate } from "@/features/test/pages/initiate/query";
-import { FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Crop, CropPredictableProperty, CropProperty, CropPropertyValue } from "@/types";
@@ -143,6 +143,50 @@ const CropData = ({ form }: { form: UseFormReturn<ScanFormType> }) => {
               <h2 className="font-bold">Sample Details</h2>
 
               <div className="grid grid-cols-2 max-sm:grid-cols-1 gap-5 gap-x-9">
+                <FormField
+                  control={form.control}
+                  name={"sample.sample_name"}
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col gap-1">
+                      <FormLabel className="text-base-semibold text-light-2">
+                        Sample Name
+                        <span className="ml-2 font-extrabold">*</span>
+                      </FormLabel>
+                      <FormControl className="no-focus border border-dark-4 bg-dark-3 text-light-1">
+                        <Input
+                          className="no-focus"
+                          type="text"
+                          placeholder={"Enter sample name"}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name={"sample.subsample_name"}
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col gap-1">
+                      <FormLabel className="text-base-semibold text-light-2">
+                        Subsample Name
+                        <span className="ml-2 font-extrabold">*</span>
+                      </FormLabel>
+                      <FormControl className="no-focus border border-dark-4 bg-dark-3 text-light-1">
+                        <Input
+                          className="no-focus"
+                          type="text"
+                          placeholder={"Enter subsample name"}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
                 {selectedCrop.crop_property.map((crop, index) => (
                   <div className="flex flex-col gap-2">
                     <Label className="capitalize">
