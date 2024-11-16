@@ -23,7 +23,7 @@ const CropData = ({ form }: { form: UseFormReturn<ScanFormType> }) => {
 
   const predictableProperties = useFieldArray({
     control: form.control,
-    name: "sample.selected_predictable_properties",
+    name: "selected_predictable_properties",
   });
 
   const properties = useFieldArray({

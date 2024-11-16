@@ -45,6 +45,8 @@ const CropForm = () => {
 
     const taram_hex = selectedTaram?.taram_hex;
     const dateTime = getCurrentDateTime();
+    const selected_predictable_properties = form.getValues("selected_predictable_properties");
+    const sample_details = form.getValues("sample.sample_details");
 
     form.setValue("order_id", `${taram_hex}0007${dateTime}`);
     form.setValue("sample.sub_sample_id", `${taram_hex}0001${dateTime}`);
@@ -52,8 +54,20 @@ const CropForm = () => {
     form.setValue("scan_request_id", `${taram_hex}0003${dateTime}`);
     form.setValue("operator_id", verifiedUser?.user_id); // TODO: change operator_id
     form.setValue("on_behalf_of_id", verifiedUser?.user_id);
-    console.log(form.getValues());
-    return;
+
+    // @ts-expect-error id's temproarily generated while useFieldArray hook
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    form.setValue(
+      "selected_predictable_properties",
+      selected_predictable_properties.map(({ id, ...rest }) => rest),
+    );
+
+    // @ts-expect-error id's temproarily generated while useFieldArray hook
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    form.setValue(
+      "sample.sample_details",
+      sample_details.map(({ id, ...rest }) => rest),
+    );
 
     const isValid = await form.trigger();
     if (!isValid) return;

@@ -20,14 +20,14 @@ export const getScanSchema = (selectedCrop: Crop | undefined) => {
           crop_property_value: z.string(),
         }),
       ),
-      selected_predictable_properties: z.array(
-        z.object({
-          predictable_property_id: z.string(),
-          is_selected: z.literal(0).or(z.literal(1)),
-          cost: z.number(),
-        }),
-      ),
     }),
+    selected_predictable_properties: z.array(
+      z.object({
+        predictable_property_id: z.string(),
+        is_selected: z.literal(0).or(z.literal(1)),
+        cost: z.number(),
+      }),
+    ),
   });
 
   if (selectedCrop) {
@@ -55,27 +55,27 @@ export const getScanSchema = (selectedCrop: Crop | undefined) => {
               },
             ),
         ),
-        selected_predictable_properties: z
-          .array(
-            z.object({
-              predictable_property_id: z.string(),
-              is_selected: z.literal(0).or(z.literal(1)),
-              cost: z.number(),
-            }),
-          )
-          .refine(
-            props => {
-              return props.every(prop =>
-                selectedCrop.crop_predictable_property.some(
-                  p => p.predictable_property_id === prop.predictable_property_id,
-                ),
-              );
-            },
-            {
-              message: "Invalid predictable property ID",
-            },
-          ),
       }),
+      selected_predictable_properties: z
+        .array(
+          z.object({
+            predictable_property_id: z.string(),
+            is_selected: z.literal(0).or(z.literal(1)),
+            cost: z.number(),
+          }),
+        )
+        .refine(
+          props => {
+            return props.every(prop =>
+              selectedCrop.crop_predictable_property.some(
+                p => p.predictable_property_id === prop.predictable_property_id,
+              ),
+            );
+          },
+          {
+            message: "Invalid predictable property ID",
+          },
+        ),
     });
 
     return extendedSchema;
@@ -97,8 +97,8 @@ export const scanDefValues = {
     subsample_name: "",
     crop_id: "",
     sample_details: [],
-    selected_predictable_properties: [],
   },
+  selected_predictable_properties: [],
 };
 
 export type ScanFormType = z.infer<ReturnType<typeof getScanSchema>>;
