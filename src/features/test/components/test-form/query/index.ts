@@ -1,5 +1,6 @@
 import { api } from "@/api";
-import { ScanFormType } from "@/features/test/pages/initiate/lib/scan.validation";
+import { ScanFormType } from "@/features/test/components/test-form/lib/scan.validation";
+import { OrderCreationResponse } from "@/types";
 
 // user section
 export const fetchCreateUserTemplate = async () => {
@@ -33,7 +34,7 @@ export const fetchTaramAssociatedWithKiosk = async (kiosk: string) => {
   return response;
 };
 
-export const createScan = async (data: ScanFormType) => {
+export const createScan = async (data: ScanFormType): Promise<OrderCreationResponse> => {
   const response = await api.post("/scanrequest", data);
-  return response;
+  return response.data;
 };

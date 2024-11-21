@@ -2,7 +2,7 @@ import ToolTip from "@/components/Tooltip";
 import { Button } from "@/components/ui/button";
 import { TbBoxMultiple, TbDeselect, TbReportAnalytics, TbReportOff } from "react-icons/tb";
 import { checkPermissions } from "@/lib/utils";
-import { Order } from "@/features/test/pages/home/types";
+import { Order } from "@/types";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineClose } from "react-icons/ai";
 import { BiError } from "react-icons/bi";
@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { cancelScanRequest } from "../../query";
+import { cancelScanRequest } from "@/features/test/pages/home/query";
 
 const ScanInfo = ({ scan }: { scan: Order }) => {
   const navigate = useNavigate();

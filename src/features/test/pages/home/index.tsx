@@ -9,7 +9,6 @@ import { parseQuery } from "@/lib/utils";
 import { useURLQuery } from "@/hooks";
 import TestTable from "./components/test-table";
 import { useSetFilter } from "./hooks";
-import DatePicker from "@/components/DatePicker";
 
 const Home = () => {
   useSetFilter();

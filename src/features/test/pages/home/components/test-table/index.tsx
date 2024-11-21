@@ -9,7 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useTableStore } from "@/features/test/pages/home/zustand";
-import { Order } from "@/features/test/pages/home/types";
+import { Order } from "@/types";
 import Pagination from "@/components/Pagination";
 import { parseQuery } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";

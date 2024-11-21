@@ -1,8 +1,8 @@
 import { useFieldArray, UseFormReturn } from "react-hook-form";
-import { ScanFormType } from "@/features/test/pages/initiate/lib/scan.validation";
+import { ScanFormType } from "@/features/test/components/test-form/lib/scan.validation";
 import DropDown from "@/components/Dropdwon";
 import { useQuery } from "@tanstack/react-query";
-import { fetchCropTemplate } from "@/features/test/pages/initiate/query";
+import { fetchCropTemplate } from "@/features/test/components/test-form/query";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
@@ -10,7 +10,7 @@ import { Crop, CropPredictableProperty, CropProperty, CropPropertyValue } from "
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import DatePicker from "@/components/DatePicker";
-import { useScanFormStore } from "@/features/test/pages/initiate/zustand";
+import { useScanFormStore } from "@/features/test/components/test-form/zustand";
 
 const CropData = ({ form }: { form: UseFormReturn<ScanFormType> }) => {
   const { selectedCrop, setSelectedCrop } = useScanFormStore();

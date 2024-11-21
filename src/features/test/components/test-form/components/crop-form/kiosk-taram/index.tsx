@@ -2,14 +2,14 @@ import { useQuery } from "@tanstack/react-query";
 import {
   fetchTaramAssociatedWithKiosk,
   fetchAllKiosks,
-} from "@/features/test/pages/initiate/query";
+} from "@/features/test/components/test-form/query";
 import { FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 
 import DropDown from "@/components/Dropdwon";
 import { UseFormReturn } from "react-hook-form";
-import { ScanFormType } from "@/features/test/pages/initiate/lib/scan.validation";
+import { ScanFormType } from "@/features/test/components/test-form/lib/scan.validation";
 import { kiosk, Taram } from "@/types";
-import { useScanFormStore } from "@/features/test/pages/initiate/zustand";
+import { useScanFormStore } from "@/features/test/components/test-form/zustand";
 
 const KioskTaram = ({ form }: { form: UseFormReturn<ScanFormType> }) => {
   const { selectedKiosk, setSelectedKiosk, setSelectedTaram } = useScanFormStore();

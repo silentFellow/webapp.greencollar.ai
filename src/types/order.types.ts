@@ -1,18 +1,6 @@
-interface SampleDetail {
-  crop_property_id: string;
-  crop_property_value: string;
-}
+import { ScanSample } from "./scan.types";
 
-interface Sample {
-  sample_id: string;
-  sub_sample_id: string;
-  crop_id: string;
-  sample_name: string;
-  subsample_name: string;
-  sample_details: SampleDetail[];
-}
-
-interface PredictableProperty {
+export interface OrderPredictableProperty {
   predictable_property_id: string;
   is_selected: boolean;
 }
@@ -32,6 +20,13 @@ export interface Order {
   scan_name: string;
   scan_description: string;
   order_invoice_number: string | null;
-  sample: Sample;
-  selected_predictable_properties: PredictableProperty[];
+  sample: ScanSample;
+  selected_predictable_properties: OrderPredictableProperty[];
+}
+
+export interface OrderCreationResponse {
+  order_id: string;
+  order_status: string;
+  scan_request_id: string;
+  scan_request_status: string;
 }

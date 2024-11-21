@@ -3,24 +3,27 @@ import {
   ScanFormType,
   getScanSchema,
   scanDefValues,
-} from "@/features/test/pages/initiate/lib/scan.validation";
+} from "@/features/test/components/test-form/lib/scan.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
 import KioskTaram from "./kiosk-taram";
 import CropData from "./crop-data";
-import { useScanFormStore } from "@/features/test/pages/initiate/zustand";
+import { useScanFormStore } from "@/features/test/components/test-form/zustand";
 import { Button } from "@/components/ui/button";
 import { getCurrentDateTime } from "@/lib/utils";
 import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
-import { createScan } from "@/features/test/pages/initiate/query";
+import { createScan } from "@/features/test/components/test-form/query";
+import { OrderCreationResponse } from "@/types";
 
 const CropForm = () => {
-  const { selectedCrop, selectedTaram, verifiedUser } = useScanFormStore();
+  const { selectedCrop, selectedTaram, verifiedUser, orderResponse, setOrderResponse } =
+    useScanFormStore();
 
   const form = useForm<ScanFormType>({
     resolver: zodResolver(getScanSchema(selectedCrop)),
     defaultValues: scanDefValues,
+    disabled: orderResponse !== undefined,
   });
 
   const createScanMutation = useMutation({
@@ -28,6 +31,9 @@ const CropForm = () => {
     mutationFn: async (values: ScanFormType) => {
       const response = await createScan(values);
       return response;
+    },
+    onSuccess: (data: OrderCreationResponse) => {
+      setOrderResponse(data);
     },
   });
 
@@ -44,7 +50,10 @@ const CropForm = () => {
     }
 
     const taram_hex = selectedTaram?.taram_hex;
-    const dateTime = getCurrentDateTime();
+
+    const { day, month, year, minutes, hours, seconds } = getCurrentDateTime();
+    const dateTime = `${day}${month}${year}${hours}${minutes}${seconds}`;
+
     const selected_predictable_properties = form.getValues("selected_predictable_properties");
     const sample_details = form.getValues("sample.sample_details");
 
@@ -55,17 +64,17 @@ const CropForm = () => {
     form.setValue("operator_id", verifiedUser?.user_id); // TODO: change operator_id
     form.setValue("on_behalf_of_id", verifiedUser?.user_id);
 
-    // @ts-expect-error id's temproarily generated while useFieldArray hook
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     form.setValue(
       "selected_predictable_properties",
+      // @ts-expect-error id's temproarily generated while useFieldArray hook
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       selected_predictable_properties.map(({ id, ...rest }) => rest),
     );
 
-    // @ts-expect-error id's temproarily generated while useFieldArray hook
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     form.setValue(
       "sample.sample_details",
+      // @ts-expect-error id's temproarily generated while useFieldArray hook
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       sample_details.map(({ id, ...rest }) => rest),
     );
 
@@ -92,9 +101,13 @@ const CropForm = () => {
 
         {selectedCrop && (
           <div className="flex justify-center gap-6">
-            <Button type="button">Undo</Button>
-            <Button type="button">Add Another Sample</Button>
-            <Button>Submit</Button>
+            {/* TODO: add multiple forms *?}
+            {/* <Button type="button">Undo</Button> */}
+            {/* <Button type="button">Add Another Sample</Button> */}
+
+            <Button disabled={orderResponse !== undefined} className="w-full">
+              Submit
+            </Button>
           </div>
         )}
       </form>

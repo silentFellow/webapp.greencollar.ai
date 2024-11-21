@@ -1,9 +1,9 @@
 import { literal, z, ZodTypeAny } from "zod";
-import { UserTemplate, UserTemplateProperty } from "@/features/test/pages/initiate/types";
+import { UserTemplate, UserProperty } from "@/types";
 
-export const parseUserSchema = (userTemplate: UserTemplate) => {
+export const getUserSchema = (userTemplate: UserTemplate) => {
   const userSchema = z.object(
-    userTemplate.reduce((acc: Record<string, ZodTypeAny>, item: UserTemplateProperty) => {
+    userTemplate.reduce((acc: Record<string, ZodTypeAny>, item: UserProperty) => {
       let schema;
 
       switch (item.property_type.toLowerCase()) {
@@ -61,4 +61,4 @@ export const parseUserSchema = (userTemplate: UserTemplate) => {
   return userSchema;
 };
 
-export type UserFormType = z.infer<ReturnType<typeof parseUserSchema>>;
+export type UserFormType = z.infer<ReturnType<typeof getUserSchema>>;

@@ -42,6 +42,16 @@ export const getCurrentDateTime = (index: number = 0) => {
   const minutes = String(now.getMinutes()).padStart(2, "0");
   const seconds = String(now.getSeconds() + index).padStart(2, "0");
 
-  const formattedDateTime = `${day}${month}${year}${hours}${minutes}${seconds}`;
-  return formattedDateTime;
+  return {
+    day,
+    month,
+    year,
+    hours,
+    minutes,
+    seconds,
+  };
+};
+
+export const parseFileSize = (byte: number): string => {
+  return (byte / 1048576).toFixed(2) + " MB";
 };

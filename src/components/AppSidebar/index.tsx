@@ -3,7 +3,6 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
-  SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
@@ -15,8 +14,13 @@ import { PiSignOutBold } from "react-icons/pi";
 import { sidebarRoutes, excludedRoutes } from "@/constants";
 import { Link, useLocation } from "react-router-dom";
 import { checkRegex } from "@/lib/utils";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { ChevronDownIcon } from "@radix-ui/react-icons";
+import { useSidebarStore } from "@/zustand";
 
 const AppSidebar = () => {
+  const { state, toggleState } = useSidebarStore();
+
   const { pathname } = useLocation();
 
   if (excludedRoutes.map(route => checkRegex(route, pathname)).includes(true)) return null;
@@ -52,26 +56,37 @@ const AppSidebar = () => {
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ) : (
-              <SidebarGroup key={route.name}>
-                <SidebarGroupLabel className="p-1 text-sm">{route.name}</SidebarGroupLabel>
-                <SidebarGroupContent>
-                  <SidebarMenu>
-                    {route.sublinks?.map(sublink => (
-                      <SidebarMenuItem
-                        key={sublink.name}
-                        className={`p-1 rounded-md ${sublink.active.map(active => checkRegex(active, pathname)).includes(true) && "bg-[#877EFF] text-[#2c2c2c]"}`}
-                      >
-                        <SidebarMenuButton asChild className="flex gap-5 text-md">
-                          <Link to={sublink.navigate}>
-                            <sublink.icon />
-                            <span className="font-bold">{sublink.name}</span>
-                          </Link>
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    ))}
-                  </SidebarMenu>
-                </SidebarGroupContent>
-              </SidebarGroup>
+              <Collapsible
+                defaultOpen={state[route.name]}
+                onOpenChange={() => toggleState(route.name)}
+                className="group/collapsible"
+              >
+                <SidebarGroup key={route.name}>
+                  <SidebarGroupLabel asChild className="p-1 text-sm">
+                    <CollapsibleTrigger>
+                      <span className="uppercase font-extrabold">{route.name}</span>
+                      <ChevronDownIcon className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+                    </CollapsibleTrigger>
+                  </SidebarGroupLabel>
+                  <CollapsibleContent>
+                    <SidebarMenu>
+                      {route.sublinks?.map(sublink => (
+                        <SidebarMenuItem
+                          key={sublink.name}
+                          className={`p-1 rounded-md ${sublink.active.map(active => checkRegex(active, pathname)).includes(true) && "bg-[#877EFF] text-[#2c2c2c]"}`}
+                        >
+                          <SidebarMenuButton asChild className="flex gap-5 text-md">
+                            <Link to={sublink.navigate}>
+                              <sublink.icon />
+                              <span className="font-bold">{sublink.name}</span>
+                            </Link>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      ))}
+                    </SidebarMenu>
+                  </CollapsibleContent>
+                </SidebarGroup>
+              </Collapsible>
             ),
           )}
         </SidebarMenu>

@@ -1,7 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { parseUserSchema, UserFormType } from "@/features/test/pages/initiate/lib/user.validation";
-import { UserTemplate, UserTemplateProperty } from "@/features/test/pages/initiate/types";
+import {
+  getUserSchema,
+  UserFormType,
+} from "@/features/test/components/test-form/lib/user.validation";
+import { UserTemplate, UserProperty } from "@/types";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -20,7 +23,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import React from "react";
-import { createUser } from "@/features/test/pages/initiate/query";
+import { createUser } from "@/features/test/components/test-form/query";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 
@@ -35,14 +38,11 @@ const UserForm = ({
   setUsername?: React.Dispatch<React.SetStateAction<string>>;
   login?: () => void;
 }) => {
-  const resolver = parseUserSchema(userTemplate);
-  const defaultValues = userTemplate.reduce(
-    (acc: Record<string, string>, item: UserTemplateProperty) => {
-      acc[item.property_name as string] = def ? def[item.property_name] : "";
-      return acc;
-    },
-    {},
-  );
+  const resolver = getUserSchema(userTemplate);
+  const defaultValues = userTemplate.reduce((acc: Record<string, string>, item: UserProperty) => {
+    acc[item.property_name as string] = def ? def[item.property_name] : "";
+    return acc;
+  }, {});
 
   const userForm = useForm<UserFormType>({
     resolver: zodResolver(resolver),
@@ -78,7 +78,7 @@ const UserForm = ({
         className="mt-3 flex flex-col justify-start gap-6"
       >
         <div className="grid grid-cols-2 max-sm:grid-cols-1 gap-x-9 gap-y-6">
-          {userTemplate.map((item: UserTemplateProperty) => (
+          {userTemplate.map((item: UserProperty) => (
             <FormField
               key={item.property_name}
               control={userForm.control}

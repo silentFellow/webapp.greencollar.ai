@@ -1,5 +1,6 @@
 import Home from "@/features/test/pages/home";
 import InitiateTest from "@/features/test/pages/initiate";
+import CsvSample from "@/features/test/pages/csv-sample";
 import AppSidebar from "@/components/AppSidebar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -18,6 +19,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/test/initiate" element={<InitiateTest />} />
+              <Route path="/tools/csv-sample" element={<CsvSample />} />
             </Routes>
 
             {import.meta.env.MODE === "development" && <ReactQueryDevtools />}

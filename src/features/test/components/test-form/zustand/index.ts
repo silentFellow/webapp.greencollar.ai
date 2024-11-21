@@ -1,4 +1,4 @@
-import { Crop, kiosk, Taram, User } from "@/types";
+import { Crop, kiosk, OrderCreationResponse, Taram, User } from "@/types";
 import { create } from "zustand";
 
 interface ScanFormState {
@@ -6,6 +6,7 @@ interface ScanFormState {
   selectedKiosk: kiosk | undefined;
   selectedTaram: Taram | undefined;
   verifiedUser: User | undefined;
+  orderResponse: OrderCreationResponse | undefined;
   flow: {
     userVerified: boolean;
     kioskSelected: boolean;
@@ -14,6 +15,7 @@ interface ScanFormState {
   setSelectedKiosk: (selectedKiosk: kiosk) => void;
   setSelectedTaram: (selectedKiosk: Taram) => void;
   setVerifiedUser: (verifiedUser: User) => void;
+  setOrderResponse: (orderResponse: OrderCreationResponse) => void;
   setFlow: (key: keyof ScanFormState["flow"], value: boolean) => void;
 
   reset: () => void;
@@ -24,6 +26,7 @@ export const useScanFormStore = create<ScanFormState>(set => ({
   selectedKiosk: undefined,
   selectedTaram: undefined,
   verifiedUser: undefined,
+  orderResponse: undefined,
 
   flow: {
     userVerified: false,
@@ -34,6 +37,7 @@ export const useScanFormStore = create<ScanFormState>(set => ({
   setSelectedKiosk: (selectedKiosk: kiosk) => set({ selectedKiosk }),
   setSelectedTaram: (selectedTaram: Taram) => set({ selectedTaram }),
   setVerifiedUser: (verifiedUser: User) => set({ verifiedUser }),
+  setOrderResponse: (orderResponse: OrderCreationResponse) => set({ orderResponse }),
   setFlow: (key: keyof ScanFormState["flow"], value: boolean) =>
     set(state => ({ flow: { ...state.flow, [key]: value } })),
 
@@ -42,6 +46,7 @@ export const useScanFormStore = create<ScanFormState>(set => ({
       selectedCrop: undefined,
       selectedKiosk: undefined,
       verifiedUser: undefined,
+      orderResponse: undefined,
 
       flow: {
         userVerified: false,

@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import ScanInfo from "@/features/test/pages/home/components/scan-info";
-import { Order } from "@/features/test/pages/home/types";
+import { Order } from "@/types";
 
 type Query = Record<string, string | null>;
 type Columns = {

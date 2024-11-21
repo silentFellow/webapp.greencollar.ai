@@ -28,3 +28,17 @@ export interface User {
   zohobook_id: string | null;
   is_zohoid_valid: boolean;
 }
+
+// user creation
+export interface UserProperty {
+  property_name: string;
+  property_display_name: string;
+  property_type: "string" | "secret" | "email" | "integer" | "list";
+  property_description: string;
+  property_values?: string[];
+  mandatory: number;
+  min_length?: number;
+  max_length?: number;
+}
+
+export type UserTemplate = UserProperty[];
